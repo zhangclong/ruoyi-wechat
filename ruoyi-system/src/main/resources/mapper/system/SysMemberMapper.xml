@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysMemberMapper">
+
+    <resultMap type="SysMember" id="SysMemberResult">
+        <result property="memberId"       column="member_id"       />
+        <result property="nickName"       column="nick_name"       />
+        <result property="phonenumber"    column="phonenumber"     />
+        <result property="avatar"         column="avatar"          />
+        <result property="wechatUnionId"  column="wechat_union_id" />
+        <result property="wechatOpenids"  column="wechat_openids"  />
+        <result property="status"         column="status"          />
+        <result property="delFlag"        column="del_flag"        />
+        <result property="createBy"       column="create_by"       />
+        <result property="createTime"     column="create_time"     />
+        <result property="updateBy"       column="update_by"       />
+        <result property="updateTime"     column="update_time"     />
+        <result property="remark"         column="remark"          />
+    </resultMap>
+
+    <sql id="selectSysMemberVo">
+        select member_id, nick_name, phonenumber, avatar, wechat_union_id, wechat_openids, status, del_flag, create_by, create_time, update_by, update_time, remark
+        from sys_member
+    </sql>
+
+    <select id="selectSysMemberList" parameterType="SysMember" resultMap="SysMemberResult">
+        <include refid="selectSysMemberVo"/>
+        <where>
+            <if test="nickName != null and nickName != ''"> and nick_name like concat('%', #{nickName}, '%')</if>
+            <if test="phonenumber != null and phonenumber != ''"> and phonenumber = #{phonenumber}</if>
+            <if test="status != null and status != ''"> and status = #{status}</if>
+            and del_flag = '0'
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectSysMemberByMemberId" parameterType="Long" resultMap="SysMemberResult">
+        <include refid="selectSysMemberVo"/>
+        where member_id = #{memberId} and del_flag = '0'
+    </select>
+
+    <select id="selectSysMemberByPhonenumber" parameterType="String" resultMap="SysMemberResult">
+        <include refid="selectSysMemberVo"/>
+        where phonenumber = #{phonenumber} and del_flag = '0'
+    </select>
+
+    <select id="checkPhoneUnique" parameterType="String" resultMap="SysMemberResult">
+        <include refid="selectSysMemberVo"/>
+        where phonenumber = #{phonenumber} and del_flag = '0' limit 1
+    </select>
+
+    <insert id="insertSysMember" parameterType="SysMember" useGeneratedKeys="true" keyProperty="memberId">
+        insert into sys_member
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="nickName != null and nickName != ''">nick_name,</if>
+            <if test="phonenumber != null and phonenumber != ''">phonenumber,</if>
+            <if test="avatar != null and avatar != ''">avatar,</if>
+            <if test="wechatUnionId != null">wechat_union_id,</if>
+            <if test="wechatOpenids != null">wechat_openids,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="remark != null">remark,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="nickName != null and nickName != ''">#{nickName},</if>
+            <if test="phonenumber != null and phonenumber != ''">#{phonenumber},</if>
+            <if test="avatar != null and avatar != ''">#{avatar},</if>
+            <if test="wechatUnionId != null">#{wechatUnionId},</if>
+            <if test="wechatOpenids != null">#{wechatOpenids},</if>
+            <if test="status != null">#{status},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="remark != null">#{remark},</if>
+            sysdate()
+        </trim>
+    </insert>
+
+    <update id="updateSysMember" parameterType="SysMember">
+        update sys_member
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nickName != null and nickName != ''">nick_name = #{nickName},</if>
+            <if test="phonenumber != null and phonenumber != ''">phonenumber = #{phonenumber},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="wechatUnionId != null">wechat_union_id = #{wechatUnionId},</if>
+            <if test="wechatOpenids != null">wechat_openids = #{wechatOpenids},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            update_time = sysdate()
+        </trim>
+        where member_id = #{memberId}
+    </update>
+
+    <delete id="deleteSysMemberByMemberId" parameterType="Long">
+        update sys_member set del_flag = '2' where member_id = #{memberId}
+    </delete>
+
+    <delete id="deleteSysMemberByMemberIds" parameterType="Long">
+        update sys_member set del_flag = '2' where member_id in
+        <foreach item="memberId" collection="array" open="(" separator="," close=")">
+            #{memberId}
+        </foreach>
+    </delete>
+
+</mapper>
