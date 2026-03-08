@@ -1,27 +1,37 @@
 <!--index.wxml-->
+<navigation-bar title="会员小程序" back="{{false}}" color="black" background="#FFF"></navigation-bar>
 <scroll-view class="scrollarea" scroll-y type="list">
   <view class="container">
-    <view class="userinfo">
-      <block wx:if="{{canIUseNicknameComp && !hasUserInfo}}">
-        <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
-          <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
-        </button>
-        <view class="nickname-wrapper">
-          <text class="nickname-label">昵称</text>
-          <input type="nickname" class="nickname-input" placeholder="请输入昵称" bind:change="onInputChange" />
-        </view>
-      </block>
-      <block wx:elif="{{!hasUserInfo}}">
-        <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
-        <view wx:else> 请使用2.10.4及以上版本基础库 </view>
-      </block>
-      <block wx:else>
-        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-        <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-      </block>
+    <view class="welcome">
+      <text class="welcome-title">欢迎使用会员系统</text>
+      <text class="welcome-desc">请先注册或登录</text>
     </view>
-    <view class="usermotto">
-      <text class="user-motto">{{motto}}</text>
+
+    <view class="actions">
+      <navigator url="/pages/register/register" class="action-button primary">
+        <text>注册</text>
+      </navigator>
+      <navigator url="/pages/login/login" class="action-button secondary">
+        <text>登录</text>
+      </navigator>
+    </view>
+
+    <view class="features">
+      <view class="feature-item">
+        <text class="feature-icon">📝</text>
+        <text class="feature-title">快速注册</text>
+        <text class="feature-desc">仅需手机号和昵称即可注册</text>
+      </view>
+      <view class="feature-item">
+        <text class="feature-icon">🔐</text>
+        <text class="feature-title">便捷登录</text>
+        <text class="feature-desc">手机号一键登录</text>
+      </view>
+      <view class="feature-item">
+        <text class="feature-icon">👤</text>
+        <text class="feature-title">个人中心</text>
+        <text class="feature-desc">查看和编辑个人信息</text>
+      </view>
     </view>
   </view>
 </scroll-view>

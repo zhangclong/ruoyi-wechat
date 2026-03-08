@@ -1,0 +1,45 @@
+<view class="container">
+  <view class="header">
+    <image class="avatar" src="{{memberInfo.avatar || '/pages/index/user-unlogin.png'}}" mode="aspectFill"></image>
+    <view class="info">
+      <text class="nickname">{{memberInfo.nickName || '未登录'}}</text>
+      <text class="phone">{{memberInfo.phonenumber || ''}}</text>
+    </view>
+  </view>
+
+  <view class="content" wx:if="{{memberInfo.memberId}}">
+    <view class="section">
+      <view class="section-title">基本信息</view>
+
+      <view class="info-item">
+        <text class="label">昵称</text>
+        <text class="value">{{memberInfo.nickName}}</text>
+      </view>
+
+      <view class="info-item">
+        <text class="label">手机号</text>
+        <text class="value">{{memberInfo.phonenumber}}</text>
+      </view>
+
+      <view class="info-item">
+        <text class="label">状态</text>
+        <text class="value">{{memberInfo.status === '0' ? '正常' : '停用'}}</text>
+      </view>
+
+      <view class="info-item">
+        <text class="label">注册时间</text>
+        <text class="value">{{memberInfo.createTime}}</text>
+      </view>
+    </view>
+
+    <button class="edit-button" bindtap="goToEdit">编辑资料</button>
+    <button class="logout-button" bindtap="handleLogout">退出登录</button>
+  </view>
+
+  <view class="content" wx:else>
+    <view class="empty">
+      <text class="empty-text">您还未登录</text>
+      <button class="login-btn" bindtap="goToLogin">去登录</button>
+    </view>
+  </view>
+</view>

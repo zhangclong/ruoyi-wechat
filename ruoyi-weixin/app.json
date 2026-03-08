@@ -1,11 +1,34 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/register/register",
+    "pages/login/login",
+    "pages/profile/profile",
+    "pages/edit/edit",
     "pages/logs/logs"
   ],
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#667eea",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "pages/index/home.png",
+        "selectedIconPath": "pages/index/home-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "pages/index/user.png",
+        "selectedIconPath": "pages/index/user-active.png"
+      }
+    ]
+  },
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "Weixin",
+    "navigationBarTitleText": "会员小程序",
     "navigationBarBackgroundColor": "#ffffff"
   },
   "style": "v2",
